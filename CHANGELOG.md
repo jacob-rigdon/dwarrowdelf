@@ -9,7 +9,7 @@
 + Created Makefile
 + Structures for expansion implemented
 + Generates correctly dimensioned dungeon consisting of all Rock
- 
+
 1/19/2015 - Project Inception
 + Created Repository
 + Added project specifications and documentation

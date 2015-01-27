@@ -8,9 +8,8 @@
 .JMMmmmdP'        W      W    `Moo9^Yo..JMML.   .JMML.   `Ybmd9'     W      W     `Wbmd"MML.`Mbmmd'.JMML..JMML.  
 
 
-A rougue-lie game, developed as course-work for CS 229 at Iowa State University 
+A rougue-like game, developed as course-work for CS 229 at Iowa State University 
 
 
 Current functionality - 1/26/15
-
 +Randomly generates dungeon levels and populates these with random sized rooms.
