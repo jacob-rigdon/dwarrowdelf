@@ -8,8 +8,13 @@
 .JMMmmmdP'        W      W    `Moo9^Yo..JMML.   .JMML.   `Ybmd9'     W      W     `Wbmd"MML.`Mbmmd'.JMML..JMML.  
 
 
-A rougue-like game, developed as course-work for CS 229 at Iowa State University 
+A rougue-like game, developed as course-work for CS 229 at Iowa State University
+Written in C
+Author: Jacob Rigdon 
 
+Developing...
 
-Current functionality - 1/26/15
-+Randomly generates dungeon levels and populates these with random sized rooms.
+Current functionality - 1/27/15
++ Randomly generates a dungeon level and populates it with 12 to 20, randomly sized and located rooms
+++	spaced at least 3 places away from the closet point of any other room
++ Corridors are generated that connect each room together in sequence - All rooms are connected.

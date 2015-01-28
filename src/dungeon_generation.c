@@ -80,7 +80,7 @@ void init_level(level_t *level){
 	}
 
 	//for each room, generate a corridor to the next room in the sequence
-	for(i = 0; i < level->num_rooms - 1; i++){
+	for(i = 0; i < (level->num_rooms - 1); i++){
 		generate_corridor(level, i, i+1);
 	}
 }
@@ -106,8 +106,8 @@ int generate_room(level_t *level, int* consecutive_fails){
 
 	//check if room, about center x_loc, y_loc would be a valid room location
 	//that is, within the bounds of the level - return if not valid
-	if(x_loc - center_to_edge_x <= 0 || x_loc + center_to_edge_x >= DUNGEON_X ||
-			y_loc - center_to_edge_y <= 0 || y_loc + center_to_edge_y >= DUNGEON_Y)
+	if(x_loc - center_to_edge_x <= 0 || x_loc + center_to_edge_x >= DUNGEON_X - 1 ||
+			y_loc - center_to_edge_y <= 0 || y_loc + center_to_edge_y >= DUNGEON_Y - 1)
 		return 2;
 
 	int x_dim = 2 * center_to_edge_x + 1;
@@ -124,26 +124,26 @@ int generate_room(level_t *level, int* consecutive_fails){
 				return 3;
 		}
 	}		
-
-	//checking for rooms within 3 blocks of each other
+	
+	//checking for rooms within MIN_HAUSDORFF_DIST blocks of each other
 	//return if found
 	for(i = x_top_left; i < x_top_left + x_dim; i++){
 		for(j = y_top_left; j < y_top_left + y_dim; j++){
-			for(k = 0; k < MIN_HAUSDORFF_DIST; k++){ 
+			for(k = 1; k <= MIN_HAUSDORFF_DIST; k++){ 
 
-				if( i == 0) {		// top row case
+				if( i == x_top_left) {		// top row case
 					if( level->map[i-k][j] == open )
 						return 4;
 				} 
-				if(j == 0){		// left edge case
+				if(j == y_top_left){		// left edge case
 					if( level->map[i][j-k] == open )
 						return 4;
 				}
-				if( j == (y_dim - 1) ){		//right edge case
+				if( j == (y_top_left + y_dim - 1) ){		//right edge case
 					if( level->map[i][j+k] == open )
 						return 4;
 				}
-				if( i == (x_dim - 1) ){		//bottom edge case
+				if( i == (x_top_left + x_dim - 1) ){		//bottom edge case
 					if( level->map[i+k][j] == open )
 						return 4;
 				}
@@ -177,8 +177,14 @@ int generate_room(level_t *level, int* consecutive_fails){
 
 	//reset fail count
 	*consecutive_fails = 0;
+}
 
-	printf("CENTERX = %d, CENTERY = %d, X = %d, Y = %d, XTL = %d, YTL = %d\n", x_loc, y_loc, x_dim, y_dim, x_top_left, y_top_left);
+/*
+ * Utility function called by generate_corridor
+ * returns 1 if arg is positive, -1 if arg is negative
+ */
+int sign(int x){
+	return (x > 0) - (x < 0);
 }
 
 /*
@@ -186,7 +192,33 @@ int generate_room(level_t *level, int* consecutive_fails){
  * passed as arguments
  */
 int generate_corridor(level_t *level, int src_index, int dest_index){
+	int i;
+	//randomly determine how to leave room (vertical or horizontal)
+	int dir = rand() % 2;
 
+	int src_x = level->rooms[src_index].center_index_x;
+	int src_y = level->rooms[src_index].center_index_y;
+
+	int dest_x = level->rooms[dest_index].center_index_x;
+	int dest_y = level->rooms[dest_index].center_index_y;
+
+	int x_sign = sign(dest_x - src_x);
+	int y_sign = sign(dest_y - src_y);
+
+	if(!dir){	//leave horizontal
+		for(i = src_y; i !=  dest_y; i += y_sign)
+			level->map[src_x][i] = corridor;
+
+		for(i = src_x; i != dest_x; i += x_sign)
+			level->map[i][dest_y] = corridor;
+			
+	} else {	//leave vertical
+		for ( i = src_x; i != dest_x; i += x_sign)
+			level->map[i][src_y] = corridor;
+		
+		for( i = src_y; i != dest_y; i += y_sign)
+			level->map[dest_x][i] = corridor;
+	}
 }
 
 void main(){

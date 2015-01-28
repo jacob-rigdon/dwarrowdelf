@@ -1,9 +1,21 @@
+1/27/2015 - Project 1.01 Due
++ Fixed distance between room bug - Functions correctly now
++ Generates corridors between rooms
++	 Will continue testing over time, and may make attempts to make
++	 corridors more direct to the rooms, but functionality is there  
++ Removed all debugging symbols
++ Submitted project
+TODO
+- Migrate main to its own separate file
+- Get feedback from graders to see if output X/Y values are correct
+
 1/26/2015
 + Generates rooms
-++ Must fix distance between rooms - currently experiencing bugs where rooms are generated next to each other
-+ Started implementation of euclidean distance between room centers to generate a corridor path
-+ May have an issue with X and Y values being generally backwards throughout - plan on showing a TA my current output
++ Started implementation of corridor generation - Plan to finish this tomorrow
 + Updated README with ASCIIArt
+TODO
+- Fix distance between rooms - currently experiencing bugs where rooms are generated next to each other
+- May have an issue with X and Y values being generally backwards throughout
 
 1/25/2015 - Progress
 + Created Makefile
