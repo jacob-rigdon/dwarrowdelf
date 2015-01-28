@@ -12,7 +12,13 @@ A rougue-like game, developed as course-work for CS 229 at Iowa State University
 Written in C
 Author: Jacob Rigdon 
 
+To execute, in src/ run:
+	> make
+	> ./dwarrowdelf
+
+
 Developing...
+
 
 Current functionality - 1/27/15
 + Randomly generates a dungeon level and populates it with 12 to 20, randomly sized and located rooms

@@ -1,51 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define DUNGEON_X 160
-#define DUNGEON_Y 96
-
-#define MIN_HAUSDORFF_DIST 3
-#define MAX_ROOMS 20
-#define MIN_ROOMS 12
-
-#define MIN_ROOM_X 8
-#define MAX_ROOM_X 30
-
-#define MIN_ROOM_Y 5
-#define MAX_ROOM_Y 30
-
-#define MAX_CONSECUTIVE_FAILS 2000
-
-
-/*
- * An enumerated type for determining what kind of space is at a coordinate 
- */
-typedef enum{ open, corridor, impasse, rock,  monster, avatar }coord_type;
-
-/*
- * A struct for holding elements of a room
- */
-typedef struct room{
-	int center_index_x;
-	int center_index_y;
-
-	int top_left_index_x;
-	int top_left_index_y;
-
-	int dimension_x;
-	int dimension_y;
-
-	int area;
-} room_t;
-
-/*
- * A struct for holding elements of a dungeon level
- */
-typedef struct level{
-	int num_rooms;
-	room_t rooms[MAX_ROOMS];
-	coord_type map[DUNGEON_X][DUNGEON_Y];
-} level_t;
+#include "dungeon_generation.h"
 
 /*
  * Sets outer edge coordinates to impasse, inner corrdinates to rock,
@@ -84,6 +39,8 @@ void init_level(level_t *level){
 		generate_corridor(level, i, i+1);
 	}
 }
+
+
 
 /*
  * Function called by init_level to generate one room in the level with a random location,
@@ -179,6 +136,8 @@ int generate_room(level_t *level, int* consecutive_fails){
 	*consecutive_fails = 0;
 }
 
+
+
 /*
  * Utility function called by generate_corridor
  * returns 1 if arg is positive, -1 if arg is negative
@@ -186,6 +145,8 @@ int generate_room(level_t *level, int* consecutive_fails){
 int sign(int x){
 	return (x > 0) - (x < 0);
 }
+
+
 
 /*
  * Function called by init_level that draws a corridor between two rooms
@@ -218,28 +179,5 @@ int generate_corridor(level_t *level, int src_index, int dest_index){
 		
 		for( i = src_y; i != dest_y; i += y_sign)
 			level->map[dest_x][i] = corridor;
-	}
-}
-
-void main(){
-	int i,j;
-	time_t t;
-	level_t level;
-
-	//initialize room
-	srand( time(&t) );
-	init_level(&level);
-
-	//print each line
-	for(i = 0; i < DUNGEON_X; i++){
-		for(j = 0; j < DUNGEON_Y; j++){
-			if(level.map[i][j] == rock || level.map[i][j] == impasse){
-				printf("#");
-			}
-			else if(level.map[i][j] == open || level.map[i][j] == corridor){
-				printf(".");
-			}
-		}
-		printf("\n");
 	}
 }

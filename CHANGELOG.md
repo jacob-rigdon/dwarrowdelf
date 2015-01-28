@@ -5,8 +5,8 @@
 +	 corridors more direct to the rooms, but functionality is there  
 + Removed all debugging symbols
 + Submitted project
++ Restructured project - main is in own file: dwarrowdelf.c, moved #defines and typedefs to dungeon_generation.h 
 TODO
-- Migrate main to its own separate file
 - Get feedback from graders to see if output X/Y values are correct
 
 1/26/2015
